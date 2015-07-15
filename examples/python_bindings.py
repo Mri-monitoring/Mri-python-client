@@ -1,6 +1,6 @@
-'''Example of using the Mri-client via Python, for example to use with Theano or other Python learning toolkits'''
-from Mri.dispatch import MriServerDispatch
-from Mri.event import TrainingEvent
+'''Example of using the mri-client via Python, for example to use with Theano or other Python learning toolkits'''
+from mri.dispatch import MriServerDispatch
+from mri.event import TrainingEvent
 import time
 
 # The CREDS.py file should contain the server info. Don't check the CREDS.py into source control unless you want the
@@ -9,7 +9,7 @@ from CREDS import SERVER_ADDR, USER, PASS
 
 
 def main():
-    # Create the MriServer
+    # Create the mriServer
     # The task needs a name and id at minimum. The id MUST be unique or your plots will be messed up. 
     # The name doesn't have to be unique but you'll want it to be anyway.
     task = {'name': 'Example Bindings', 'id': '001'}

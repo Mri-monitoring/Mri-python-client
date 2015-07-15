@@ -7,7 +7,7 @@ standard_library.install_aliases()
 import unittest
 import os
 import tempfile
-from Mri.utilities import cd
+from mri.utilities import cd
 
 
 class TestCD(unittest.TestCase):

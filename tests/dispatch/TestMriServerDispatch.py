@@ -7,9 +7,9 @@ standard_library.install_aliases()
 import unittest
 import json
 
-from Mri.dispatch import MriServerDispatch
-from Mri.event import TrainingEvent
-from Mri.utilities import ServerConsts
+from mri.dispatch import MriServerDispatch
+from mri.event import TrainingEvent
+from mri.utilities import ServerConsts
 
 HTTP_BIN = 'http://httpbin.org'
 

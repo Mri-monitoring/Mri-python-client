@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from builtins import super
 from future import standard_library
 standard_library.install_aliases()
-from Mri.event import BaseEvent
+from mri.event import BaseEvent
 
 
 class TrainingEvent(BaseEvent):

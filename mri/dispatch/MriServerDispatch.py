@@ -10,11 +10,11 @@ import requests
 import json
 
 from .BaseDispatch import BaseDispatch
-from Mri.utilities import ServerConsts
+from mri.utilities import ServerConsts
 
 
 class MriServerDispatch(BaseDispatch):
-    """Display events via the Mri-Server front-end. For this dispatch, we will treat
+    """Display events via the mri-Server front-end. For this dispatch, we will treat
     each task as a separate report. There may be multiple visualizations on the server
     for a report, and there may be multiple directives in a task. These two, however, aren't
     necessarily bijective.
@@ -28,10 +28,10 @@ class MriServerDispatch(BaseDispatch):
         Server address, generally a hosted URL
 
     username : string
-        Username for the Mri-server
+        Username for the mri-server
 
     password : string
-        Password for the Mri-server
+        Password for the mri-server
     """
     def __init__(self, task_params, address, username, password):
         super().__init__()
@@ -62,7 +62,7 @@ class MriServerDispatch(BaseDispatch):
         return self._format_report()
 
     def train_event(self, event):
-        """Dispatch training events to the Mri-server via REST interface
+        """Dispatch training events to the mri-server via REST interface
 
         Arguments
         ----------
@@ -70,7 +70,7 @@ class MriServerDispatch(BaseDispatch):
             Info for this training event
 
         event_url : string
-            URI to send post events to in Mri-server (shouldn't need to change)
+            URI to send post events to in mri-server (shouldn't need to change)
         """
         super().train_event(event)
         payload = self._format_train_request(event)
@@ -119,7 +119,7 @@ class MriServerDispatch(BaseDispatch):
         return result
 
     def _format_report(self):
-        """Called after creating a new report, formats a report to display Mri events"""
+        """Called after creating a new report, formats a report to display mri events"""
         if not self.setup:
             raise ValueError('Dispatch not setup yet, please call setup_report')
         full_url = requests.compat.urljoin(ServerConsts.API_URL.REPORT_ID, self.report_id)

@@ -1,4 +1,4 @@
-"""Contains the constants for the Mri-server. These shouldn't be
+"""Contains the constants for the mri-server. These shouldn't be
 user-changable but should be editable in source just in case"""
 
 
