@@ -1,4 +1,4 @@
-Mri
+Mri-python-client
 ========
 
 > Neural network monitoring
