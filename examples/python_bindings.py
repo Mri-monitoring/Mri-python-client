@@ -1,5 +1,5 @@
 '''Example of using the mri-client via Python, for example to use with Theano or other Python learning toolkits'''
-from mri.dispatch import MriServerDispatch
+from mri import MriServer
 from mri.event import TrainingEvent
 import time
 
@@ -10,11 +10,12 @@ from CREDS import SERVER_ADDR, USER, PASS
 
 def main():
     # Create the mriServer
-    # The task needs a name and id at minimum. The id MUST be unique or your plots will be messed up. 
+    server = MriServer(SERVER_ADDR, USER, PASS)
+    # The task needs a name and id at minimum. The id MUST be unique or your plots will be messed up.
     # The name doesn't have to be unique but you'll want it to be anyway.
     task = {'name': 'Example Bindings', 'id': '001'}
     # Dispatch is setup with information about the server and the current task
-    dispatch = MriServerDispatch(task, SERVER_ADDR, USER, PASS)
+    dispatch = server.new_dispatch(task)
     # Now we have to call `setup_display` to create the report and visualization on the server.
     # We specify which value is the x-axis, and all of the attributes that we'll send along (including
     # the x-axis variable). Without this the server won't know how to properly display to the user, since

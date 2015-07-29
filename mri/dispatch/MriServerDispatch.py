@@ -10,14 +10,17 @@ import requests
 import json
 
 from .BaseDispatch import BaseDispatch
-from mri.utilities import ServerConsts
+from mri.utilities import ServerConsts, send_request
 
 
 class MriServerDispatch(BaseDispatch):
     """Display events via the mri-Server front-end. For this dispatch, we will treat
     each task as a separate report. There may be multiple visualizations on the server
     for a report, and there may be multiple directives in a task. These two, however, aren't
-    necessarily bijective.
+    necessarily bijective. Each dispatch is isolated from the server itself to emphasize the
+    stateless nature of the monitoring tool and avoid deadlikes and the like. That means that
+    to perform actions like clearing the server or clearing a specific visualization you'll need
+    to create an MriServer class instead.
 
     Arguments
     ----------
@@ -82,41 +85,11 @@ class MriServerDispatch(BaseDispatch):
         pass
 
     def _send_request(self, suffix, protocol, data):
-        """Send a report via HTTP, but allow for non-responsive or dead servers
-
-        Arguments
-        ----------
-        suffix : string
-            URL suffix for this request
-
-        protocol : string
-            Type of request to make (GET, POST, PUT, etc)
-
-        data : dict
-            JSON object of data to pass in request
-
-        Returns
-        ----------
-        result : requests.Response
-            Response from the webpage, includes response code, encoding, and text
-        """
-        headers = {'Content-Type': 'application/json'}
-        try:
-            protocol = protocol.upper()
-            url = requests.compat.urljoin(self.address, suffix)
-            result = requests.request(method=protocol, url=url, data=data, headers=headers, auth=self.auth)
-            logging.info('Sent request, result {0}'.format(result.status_code))
-            if result.status_code != 200:
-                logging.warning('Request not 200, server says {0}'.format(result.text))
-        except requests.exceptions.ConnectionError as ex:
-            logging.warning('Failed to send request because of a network problem')
-            logging.warning('Message from exception: {0}'.format(ex))
-            return None
-        except requests.exceptions.ConnectTimeout as ex:
-            logging.warning('Failed to send request because the server timed out')
-            logging.warning('Message from exception: {0}'.format(ex))
-            return None
-        return result
+        """Send a report via HTTP, but allow for non-responsive or dead servers. Fill
+        in information from the class to reduce the burden on the caller."""
+        url = requests.compat.urljoin(self.address, suffix)
+        auth = self.auth
+        return send_request(url, protocol, data, auth)
 
     def _format_report(self):
         """Called after creating a new report, formats a report to display mri events"""
@@ -168,3 +141,6 @@ class MriServerDispatch(BaseDispatch):
             'properties': properties
         }
         return json.dumps(payload)
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

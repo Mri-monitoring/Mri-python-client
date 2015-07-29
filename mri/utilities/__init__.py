@@ -6,3 +6,4 @@ from future import standard_library
 standard_library.install_aliases()
 from .cd import cd
 from .server_consts import ServerConsts
+from .send_request import send_request
