@@ -1,5 +1,6 @@
 Mri-python-client
 ========
+![https://travis-ci.org/Mri-monitoring/Mri-python-client.svg?branch=master]
 
 > Neural network monitoring
 
