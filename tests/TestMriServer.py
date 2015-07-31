@@ -13,7 +13,7 @@ from mri.dispatch import MriServerDispatch
 class TestMriServer(unittest.TestCase):
     def test_new_dispatch(self):
         server = MriServer("http://www.httpbin.com", "testuser", "testpass")
-        task = {"name": "TEST", "id": "000112233"}
+        task = {"title": "TEST", "id": "000112233"}
         dispatch = server.new_dispatch(task)
         test_against = MriServerDispatch(task, "http://www.httpbin.com", "testuser", "testpass")
         self.assertEqual(dispatch, test_against)

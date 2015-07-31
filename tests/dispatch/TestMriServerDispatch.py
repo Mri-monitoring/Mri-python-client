@@ -48,7 +48,7 @@ class TestMriServerDispatch(unittest.TestCase):
         self.assertEqual(result.status_code, 404)
 
     def test_new_report(self):
-        server = MriServerDispatch({'name': 'test'}, HTTP_BIN, 'test', 'tester')
+        server = MriServerDispatch({'title': 'test'}, HTTP_BIN, 'test', 'tester')
         old = ServerConsts.API_URL.REPORT
         ServerConsts.API_URL.REPORT = '/post'
         result = server._new_report()
@@ -56,14 +56,14 @@ class TestMriServerDispatch(unittest.TestCase):
         self.assertEqual(result['data'], '{"title": "test"}')
 
     def test_format_train_request(self):
-        server = MriServerDispatch({'name': 'test', 'id': 'cbdcig'}, HTTP_BIN, 'test', 'tester')
+        server = MriServerDispatch({'title': 'test', 'id': 'cbdcig'}, HTTP_BIN, 'test', 'tester')
         event = TrainingEvent({'iteration': 100, 'loss': 0.5, 'accuracy': 0.6}, 'iteration')
         payload = server._format_train_request(event)
         self.assertTrue('train.cbdcig' in payload)
         self.assertTrue('"accuracy": 0.6' in payload)
 
     def test_format_report(self):
-        server = MriServerDispatch({'name': 'test', 'id': 'cbdcig'}, HTTP_BIN, 'test', 'tester')
+        server = MriServerDispatch({'title': 'test', 'id': 'cbdcig'}, HTTP_BIN, 'test', 'tester')
         # Save const states
         old_id = ServerConsts.API_URL.REPORT_ID
         old = ServerConsts.API_URL.REPORT
