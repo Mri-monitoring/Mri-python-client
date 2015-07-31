@@ -25,7 +25,7 @@ class MriServerDispatch(BaseDispatch):
     Arguments
     ----------
     task_params : dict
-        Dictionary of the task json specification, including name and ID number
+        Dictionary of the task json specification, including title and ID number
 
     address : string
         Server address, generally a hosted URL
@@ -54,6 +54,11 @@ class MriServerDispatch(BaseDispatch):
         attributes : list
             List of strings representing attributes to plot eg. loss, accuracy,
             learning rate, etc. If time_axis attribute is present it will be ignored.
+
+        Returns
+        ----------
+        result : requests.Response
+            Result of the report creation request
         """
         super().setup_display(time_axis, attributes)
         report_json = self._new_report()
@@ -74,6 +79,11 @@ class MriServerDispatch(BaseDispatch):
 
         event_url : string
             URI to send post events to in mri-server (shouldn't need to change)
+
+        Returns
+        ----------
+        result : requests.Response
+            Result of the training event request
         """
         super().train_event(event)
         payload = self._format_train_request(event)
@@ -81,7 +91,7 @@ class MriServerDispatch(BaseDispatch):
         return result
 
     def train_finish(self):
-        """Final call for training, can be used to issue alerts/etc"""
+        """Final call for training, can be used to issue alerts/etc. Currently unused."""
         pass
 
     def _send_request(self, suffix, protocol, data):
@@ -105,7 +115,7 @@ class MriServerDispatch(BaseDispatch):
 
         # Add training visualizations
         payload = json.dumps({
-            'title': self.task_params['name'],
+            'title': self.task_params['title'],
             'visualizations': [
                 {
                     'type': 'plot',
@@ -127,7 +137,7 @@ class MriServerDispatch(BaseDispatch):
 
     def _new_report(self):
         """Called during init, creates a new report on the server and returns its ID"""
-        payload = json.dumps({'title': self.task_params['name']})
+        payload = json.dumps({'title': self.task_params['title']})
         result = self._send_request(ServerConsts.API_URL.REPORT, 'POST', payload).text
         result_obj = json.loads(result)
         return result_obj

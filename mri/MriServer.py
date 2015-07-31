@@ -5,20 +5,22 @@ from mri.dispatch import MriServerDispatch
 
 
 class MriServer(object):
+    """MriServer is a high level object that interfaces with an instance of Mri-server. This
+    class allows management of the server itself. Unlike MriServerDispatch where a new instance is
+    created for each report, one of these instances represents one server endpoint.
+
+    Arguments
+    ----------
+    address : string
+        URL of the server to connect to
+
+    username : string
+        Server username
+
+    password : string
+        Server password
+    """
     def __init__(self, address, username, password):
-        """MriServer is a high level object that interfaces with an instance of Mri-server
-
-        Arguments
-        ----------
-        address : string
-            URL of the server to connect to
-
-        username : string
-            Server username
-
-        password : string
-            Server password
-        """
         self.address = address
         self.auth = (username, password)
 
@@ -63,3 +65,42 @@ class MriServer(object):
         """
         endpoint = urllib.parse.urljoin(self.address, "/api/report/" + report_id)
         return send_request(endpoint, "DELETE", None, self.auth)
+
+    def get_reports(self):
+        """Get a list of reports on this server
+
+        Arguments
+        ----------
+        None
+
+        Returns
+        ----------
+        reports : dict
+            List of reports, in format {id: title}
+        """
+        endpoint = urllib.parse.urljoin(self.address, "/api/reports")
+        req = send_request(endpoint, "GET", None, self.auth)
+        reports = {}
+        for r in req.json():
+            reports[r['id']] = r['title']
+        return reports
+
+    def search_reports(self, title):
+        """Search for reports by title on this server
+
+        Arguments
+        ----------
+        title : string
+            Name of the report to find
+
+        Returns
+        ----------
+        ids : list
+            List of ids matching the title
+        """
+        ids = []
+        reports = self.get_reports()
+        for id_val, name in reports.items():
+            if name == title:
+                ids.append(id_val)
+        return ids

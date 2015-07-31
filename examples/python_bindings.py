@@ -13,7 +13,7 @@ def main():
     server = MriServer(SERVER_ADDR, USER, PASS)
     # The task needs a name and id at minimum. The id MUST be unique or your plots will be messed up.
     # The name doesn't have to be unique but you'll want it to be anyway.
-    task = {'name': 'Example Bindings', 'id': '001'}
+    task = {'title': 'Example Bindings', 'id': '001'}
     # Dispatch is setup with information about the server and the current task
     dispatch = server.new_dispatch(task)
     # Now we have to call `setup_display` to create the report and visualization on the server.
@@ -33,6 +33,7 @@ def main():
         dispatch.train_event(event)
         # Wait a little until next time
         time.sleep(1)
+
 
 if __name__ == "__main__":
     main()
