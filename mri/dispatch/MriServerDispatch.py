@@ -23,7 +23,7 @@ class MriServerDispatch(BaseDispatch):
     to create an MriServer class instead.
 
     Arguments
-    ----------
+    ---------
     task_params : dict
         Dictionary of the task json specification, including title and ID number
 
@@ -47,7 +47,7 @@ class MriServerDispatch(BaseDispatch):
         """Create a report for this dispatch, usually done at init
 
         Arguments
-        ----------
+        ---------
         time_axis : string
             Name of attribute representing time eg. iterations, epoch, etc
 
@@ -56,7 +56,7 @@ class MriServerDispatch(BaseDispatch):
             learning rate, etc. If time_axis attribute is present it will be ignored.
 
         Returns
-        ----------
+        -------
         result : requests.Response
             Result of the report creation request
         """
@@ -73,7 +73,7 @@ class MriServerDispatch(BaseDispatch):
         """Dispatch training events to the mri-server via REST interface
 
         Arguments
-        ----------
+        ---------
         event : TrainingEvent
             Info for this training event
 
@@ -81,7 +81,7 @@ class MriServerDispatch(BaseDispatch):
             URI to send post events to in mri-server (shouldn't need to change)
 
         Returns
-        ----------
+        -------
         result : requests.Response
             Result of the training event request
         """

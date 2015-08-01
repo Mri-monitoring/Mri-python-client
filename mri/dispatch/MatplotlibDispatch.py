@@ -17,7 +17,7 @@ class MatplotlibDispatch(BaseDispatch):
     """Display events via Matplotlib backend
 
     Arguments
-    ----------
+    ---------
     task_params : dict
         Dictionary of the task json specification, including name and ID number
 
@@ -43,7 +43,13 @@ class MatplotlibDispatch(BaseDispatch):
         plt.show()
 
     def train_event(self, event):
-        """Plot a basic training and testing curve via Matplotlib"""
+        """Plot a basic training and testing curve via Matplotlib
+
+        Arguments
+        ---------
+        event : TrainingEvent
+            Event to add to Matplotlib plot
+        """
         super().train_event(event)
 
         time = event.attributes[event.time_axis]
@@ -69,7 +75,7 @@ class MatplotlibDispatch(BaseDispatch):
         plt.draw()
 
     def train_finish(self):
-        """Save our output figure to PNG format"""
+        """Save our output figure to PNG format, as defined by the save path `img_folder`"""
         filename = self.task_params['name'].replace(' ', '_')
         save_path = os.path.join(self._img_folder, filename)
         logging.info('Finished training! Saving output image to {0}'.format(save_path))

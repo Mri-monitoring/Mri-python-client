@@ -6,7 +6,7 @@ def send_request(address, protocol, data, auth):
     """Send an HTTP request
 
     Arguments
-    ----------
+    ---------
     address : string
         Full address for this request
 
@@ -20,7 +20,7 @@ def send_request(address, protocol, data, auth):
         (username, pass) for server
 
     Returns
-    ----------
+    -------
     result : requests.Response
         Response from the server, includes response code, encoding, and text
     """

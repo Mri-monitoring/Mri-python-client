@@ -10,7 +10,7 @@ class MriServer(object):
     created for each report, one of these instances represents one server endpoint.
 
     Arguments
-    ----------
+    ---------
     address : string
         URL of the server to connect to
 
@@ -29,7 +29,7 @@ class MriServer(object):
         any information about it or its state.
 
         Arguments
-        ----------
+        ---------
         task : dict
             A dictionary defining a task. At the minimum must have a name and a unique ID
         """
@@ -39,11 +39,11 @@ class MriServer(object):
         """Completely wipe the database of the server, which includes events, reports, and alerts
 
         Arguments
-        ----------
+        ---------
         None
 
         Returns
-        ----------
+        -------
         result : requests.Response
             Response from the server, includes response code, encoding, and text
         """
@@ -54,12 +54,12 @@ class MriServer(object):
         """Remove a report from the database by ID
 
         Arguments
-        ----------
+        ---------
         report_id : string
             ID of the report to remove. This ID is accessible from an MriServerDispatch instance under `report_id`
 
         Returns
-        ----------
+        -------
         result : requests.Response
             Response from the server, includes response code, encoding, and text
         """
@@ -70,11 +70,11 @@ class MriServer(object):
         """Get a list of reports on this server
 
         Arguments
-        ----------
+        ---------
         None
 
         Returns
-        ----------
+        -------
         reports : dict
             List of reports, in format {id: title}
         """
@@ -89,12 +89,12 @@ class MriServer(object):
         """Search for reports by title on this server
 
         Arguments
-        ----------
+        ---------
         title : string
             Name of the report to find
 
         Returns
-        ----------
+        -------
         ids : list
             List of ids matching the title
         """

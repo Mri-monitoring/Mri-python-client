@@ -8,12 +8,7 @@ import logging
 
 
 class BaseDispatch(object):
-    """Base class to dispatch new actions to whatever backend you want
-
-    Arguments
-    ----------
-    None
-    """
+    """Base class to dispatch new actions to whatever backend you want"""
     def __init__(self):
         self._time_axis = ''
         self._attributes = []

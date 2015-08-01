@@ -13,7 +13,7 @@ class TrainingEvent(BaseEvent):
     have at least one other attribute to be valid
 
     Arguments
-    ----------
+    ---------
     time_axis : string
         Defines which attribute represents time (eg iteration number or epoch, etc)
 
