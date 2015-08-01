@@ -5,16 +5,25 @@ from __future__ import absolute_import
 from builtins import super
 from future import standard_library
 standard_library.install_aliases()
-import matplotlib.pyplot as plt
-import numpy as np
 import logging
 import os
 
 from .BaseDispatch import BaseDispatch
 
+try:
+    import matplotlib.pyplot as plt
+    import numpy as np
+    IMPORTED = True
+except Exception as e:
+    logging.warning('Failed to import numpy or matplotlib. Are you sure they are properly installed?')
+    logging.warning('You can ignore this warning if you do not plan to use Matplotlib')
+    logging.warning(e)
+    IMPORTED = False
+
 
 class MatplotlibDispatch(BaseDispatch):
-    """Display events via Matplotlib backend
+    """Display events via Matplotlib backend. This class requires some heavy dependencies, and so
+    trying to run it without Matplotlib and Numpy installed will result in pass-thru behavior
 
     Arguments
     ---------
@@ -32,15 +41,18 @@ class MatplotlibDispatch(BaseDispatch):
         self._img_folder = img_folder
 
     def setup_display(self, time_axis, attributes):
-        super().setup_display(time_axis, attributes)
-        # Setup data
-        for item in self._attributes:
-            if item != self._time_axis:
-                self._data[item] = []
-        # Setup plotting
-        plt.figure(figsize=(12, 10))
-        plt.ion()
-        plt.show()
+        if IMPORTED:
+            super().setup_display(time_axis, attributes)
+            # Setup data
+            for item in self._attributes:
+                if item != self._time_axis:
+                    self._data[item] = []
+            # Setup plotting
+            plt.figure(figsize=(12, 10))
+            plt.ion()
+            plt.show()
+        else:
+            logging.error('You need Matplotlib and Numpy to run the MatplotlibDispatch, please install them')
 
     def train_event(self, event):
         """Plot a basic training and testing curve via Matplotlib
@@ -50,33 +62,39 @@ class MatplotlibDispatch(BaseDispatch):
         event : TrainingEvent.TrainingEvent
             Event to add to Matplotlib plot
         """
-        super().train_event(event)
+        if IMPORTED:
+            super().train_event(event)
 
-        time = event.attributes[event.time_axis]
-        for item in event.attributes:
-            if item != event.time_axis:
-                val = event.attributes[item]
-                self._data[item].append([time, val])
+            time = event.attributes[event.time_axis]
+            for item in event.attributes:
+                if item != event.time_axis:
+                    val = event.attributes[item]
+                    self._data[item].append([time, val])
 
-        # Convert to numpy arrays
-        np_data = []
-        for key in self._data:
-            if self._data[key]:
-                data = np.array(self._data[key])
-                np_data.append(data[:, 0])
-                np_data.append(data[:, 1])
+            # Convert to numpy arrays
+            np_data = []
+            for key in self._data:
+                if self._data[key]:
+                    data = np.array(self._data[key])
+                    np_data.append(data[:, 0])
+                    np_data.append(data[:, 1])
 
-        plt.clf()
-        plt.plot(*np_data)
-        plt.ylim([0, 1])
-        plt.legend(['Loss', 'Accuracy'], loc='lower left')
-        plt.title(self.task_params['name'])
-        plt.grid(True, which='both')
-        plt.draw()
+            plt.clf()
+            plt.plot(*np_data)
+            plt.ylim([0, 1])
+            plt.legend(['Loss', 'Accuracy'], loc='lower left')
+            plt.title(self.task_params['name'])
+            plt.grid(True, which='both')
+            plt.draw()
+        else:
+            logging.error('Improper requirements, skipping train event')
 
     def train_finish(self):
         """Save our output figure to PNG format, as defined by the save path `img_folder`"""
-        filename = self.task_params['name'].replace(' ', '_')
-        save_path = os.path.join(self._img_folder, filename)
-        logging.info('Finished training! Saving output image to {0}'.format(save_path))
-        plt.savefig(save_path, bbox_inches='tight')
+        if IMPORTED:
+            filename = self.task_params['name'].replace(' ', '_')
+            save_path = os.path.join(self._img_folder, filename)
+            logging.info('Finished training! Saving output image to {0}'.format(save_path))
+            plt.savefig(save_path, bbox_inches='tight')
+        else:
+            logging.error('Improper requirements, skipping train finish')

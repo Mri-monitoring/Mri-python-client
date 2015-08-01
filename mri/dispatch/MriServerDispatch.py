@@ -5,7 +5,6 @@ from __future__ import absolute_import
 from builtins import super
 from future import standard_library
 standard_library.install_aliases()
-import logging
 import requests
 import json
 
@@ -17,7 +16,7 @@ class MriServerDispatch(BaseDispatch):
     """Display events via the mri-Server front-end. For this dispatch, we will treat
     each task as a separate report. There may be multiple visualizations on the server
     for a report, and there may be multiple directives in a task. These two, however, aren't
-    necessarily bijective. Each dispatch is isolated from the server itself to emphasize the
+    necessarily one-to-one. Each dispatch is isolated from the server itself to emphasize the
     stateless nature of the monitoring tool and avoid deadlikes and the like. That means that
     to perform actions like clearing the server or clearing a specific visualization you'll need
     to create an MriServer class instead.
