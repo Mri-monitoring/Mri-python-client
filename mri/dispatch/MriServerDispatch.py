@@ -74,7 +74,7 @@ class MriServerDispatch(BaseDispatch):
 
         Arguments
         ---------
-        event : TrainingEvent
+        event : TrainingEvent.TrainingEvent
             Info for this training event
 
         event_url : string

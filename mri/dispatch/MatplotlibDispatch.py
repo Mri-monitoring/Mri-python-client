@@ -47,7 +47,7 @@ class MatplotlibDispatch(BaseDispatch):
 
         Arguments
         ---------
-        event : TrainingEvent
+        event : TrainingEvent.TrainingEvent
             Event to add to Matplotlib plot
         """
         super().train_event(event)

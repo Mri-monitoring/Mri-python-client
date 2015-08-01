@@ -1,9 +1,6 @@
 mri.dispatch package
 ====================
 
-Submodules
-----------
-
 mri.dispatch.BaseDispatch module
 --------------------------------
 
@@ -24,15 +21,6 @@ mri.dispatch.MriServerDispatch module
 -------------------------------------
 
 .. automodule:: mri.dispatch.MriServerDispatch
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: mri.dispatch
     :members:
     :undoc-members:
     :show-inheritance:

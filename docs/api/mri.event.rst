@@ -1,9 +1,6 @@
 mri.event package
 =================
 
-Submodules
-----------
-
 mri.event.BaseEvent module
 --------------------------
 
@@ -16,15 +13,6 @@ mri.event.TrainingEvent module
 ------------------------------
 
 .. automodule:: mri.event.TrainingEvent
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: mri.event
     :members:
     :undoc-members:
     :show-inheritance:
