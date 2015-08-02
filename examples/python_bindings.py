@@ -11,8 +11,8 @@ from CREDS import SERVER_ADDR, USER, PASS
 def main():
     # Create the mriServer
     server = MriServer(SERVER_ADDR, USER, PASS)
-    # The task needs a name and id at minimum. The id MUST be unique or your plots will be messed up.
-    # The name doesn't have to be unique but you'll want it to be anyway.
+    # The task needs a title and id at minimum. The id MUST be unique or your plots will be messed up.
+    # The title doesn't have to be unique but you'll want it to be anyway.
     task = {'title': 'Example Bindings', 'id': '001'}
     # Dispatch is setup with information about the server and the current task
     dispatch = server.new_dispatch(task)
