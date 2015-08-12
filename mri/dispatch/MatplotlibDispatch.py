@@ -83,7 +83,7 @@ class MatplotlibDispatch(BaseDispatch):
             plt.plot(*np_data)
             plt.ylim([0, 1])
             plt.legend(['Loss', 'Accuracy'], loc='lower left')
-            plt.title(self.task_params['name'])
+            plt.title(self.task_params['title'])
             plt.grid(True, which='both')
             plt.draw()
         else:
@@ -92,7 +92,7 @@ class MatplotlibDispatch(BaseDispatch):
     def train_finish(self):
         """Save our output figure to PNG format, as defined by the save path `img_folder`"""
         if IMPORTED:
-            filename = self.task_params['name'].replace(' ', '_')
+            filename = self.task_params['title'].replace(' ', '_')
             save_path = os.path.join(self._img_folder, filename)
             logging.info('Finished training! Saving output image to {0}'.format(save_path))
             plt.savefig(save_path, bbox_inches='tight')

@@ -5,6 +5,8 @@ Mri-python-client
 
 > Neural network monitoring
 
+[Read the docs!](http://mri.readthedocs.org/)
+
 The Python client for Mri offers easy monitoring of neural networking training, for example with Theano or pylearn.
 
 ## Installing
