@@ -40,7 +40,7 @@ class MatplotlibDispatch(BaseDispatch):
         self.task_params = task_params
         self._img_folder = img_folder
 
-    def setup_display(self, time_axis, attributes):
+    def setup_display(self, time_axis, attributes, show_windows=False):
         if IMPORTED:
             super().setup_display(time_axis, attributes)
             # Setup data
@@ -49,8 +49,9 @@ class MatplotlibDispatch(BaseDispatch):
                     self._data[item] = []
             # Setup plotting
             plt.figure(figsize=(12, 10))
-            plt.ion()
-            plt.show()
+            if show_windows:
+                plt.ion()
+                plt.show()
         else:
             logging.error('You need Matplotlib and Numpy to run the MatplotlibDispatch, please install them')
 
@@ -81,8 +82,8 @@ class MatplotlibDispatch(BaseDispatch):
 
             plt.clf()
             plt.plot(*np_data)
-            plt.ylim([0, 1])
-            plt.legend(['Loss', 'Accuracy'], loc='lower left')
+            legend_keys = [k.title() for k in self._data.keys()]
+            plt.legend(legend_keys, loc='lower left')
             plt.title(self.task_params['title'])
             plt.grid(True, which='both')
             plt.draw()
@@ -95,6 +96,7 @@ class MatplotlibDispatch(BaseDispatch):
             filename = self.task_params['title'].replace(' ', '_')
             save_path = os.path.join(self._img_folder, filename)
             logging.info('Finished training! Saving output image to {0}'.format(save_path))
-            plt.savefig(save_path, bbox_inches='tight')
+            plt.savefig(save_path, bbox_inches='tight', format='png')
+            plt.close()
         else:
             logging.error('Improper requirements, skipping train finish')
