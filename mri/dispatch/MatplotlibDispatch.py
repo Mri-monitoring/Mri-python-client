@@ -74,16 +74,37 @@ class MatplotlibDispatch(BaseDispatch):
 
             # Convert to numpy arrays
             np_data = []
+            mins = {}
+            maxes = {}
             for key in self._data:
                 if self._data[key]:
                     data = np.array(self._data[key])
+                    mins[key] = np.min(data, axis=0)[1]
+                    maxes[key] = np.max(data, axis=0)[1]
                     np_data.append(data[:, 0])
                     np_data.append(data[:, 1])
 
             plt.clf()
             plt.plot(*np_data)
-            legend_keys = [k.title() for k in self._data.keys()]
-            plt.legend(legend_keys, loc='lower left')
+            legend_keys = []
+            for k in self._data.keys():
+                text = "{} (".format(k.title())
+                if k in maxes:
+                    text += "Max: {} ".format(maxes[k])
+                if k in mins:
+                    text += "Min: {}".format(mins[k])
+                text += ")"
+                legend_keys.append(text)
+
+            ax = plt.gca()
+            box = ax.get_position()
+            ax.set_position([box.x0, box.y0 + box.height * 0.1,
+                             box.width, box.height*0.9])
+            plt.legend(legend_keys,
+                       bbox_to_anchor=(0.5, -0.05),
+                       loc='upper center',
+                       ncol=2,
+                       borderaxespad=0.)
             plt.title(self.task_params['title'])
             plt.grid(True, which='both')
             plt.draw()
