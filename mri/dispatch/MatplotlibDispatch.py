@@ -91,9 +91,9 @@ class MatplotlibDispatch(BaseDispatch):
             for k in self._data.keys():
                 text = "{} (".format(k.title())
                 if k in maxes:
-                    text += "Max: {} ".format(maxes[k])
+                    text += "Max: {:0.4f} ".format(float(maxes[k]))
                 if k in mins:
-                    text += "Min: {}".format(mins[k])
+                    text += "Min: {:0.4f}".format(float(mins[k]))
                 text += ")"
                 self._legend_keys.append(text)
 
