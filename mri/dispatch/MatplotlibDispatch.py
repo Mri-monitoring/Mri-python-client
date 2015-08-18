@@ -39,6 +39,7 @@ class MatplotlibDispatch(BaseDispatch):
         self._data = {}
         self.task_params = task_params
         self._img_folder = img_folder
+        self._legend_keys = []
 
     def setup_display(self, time_axis, attributes, show_windows=False):
         if IMPORTED:
@@ -86,7 +87,7 @@ class MatplotlibDispatch(BaseDispatch):
 
             plt.clf()
             plt.plot(*np_data)
-            legend_keys = []
+            self._legend_keys = []
             for k in self._data.keys():
                 text = "{} (".format(k.title())
                 if k in maxes:
@@ -94,13 +95,13 @@ class MatplotlibDispatch(BaseDispatch):
                 if k in mins:
                     text += "Min: {}".format(mins[k])
                 text += ")"
-                legend_keys.append(text)
+                self._legend_keys.append(text)
 
             ax = plt.gca()
             box = ax.get_position()
             ax.set_position([box.x0, box.y0 + box.height * 0.1,
                              box.width, box.height*0.9])
-            plt.legend(legend_keys,
+            plt.legend(self._legend_keys,
                        bbox_to_anchor=(0.5, -0.05),
                        loc='upper center',
                        ncol=2,
@@ -117,6 +118,7 @@ class MatplotlibDispatch(BaseDispatch):
             filename = self.task_params['title'].replace(' ', '_')
             save_path = os.path.join(self._img_folder, filename)
             logging.info('Finished training! Saving output image to {0}'.format(save_path))
+            logging.info('\'{}\' Final Extremes: {}'.format(self.task_params['title'], self._legend_keys))
             plt.savefig(save_path, bbox_inches='tight', format='png')
             plt.close()
         else:
