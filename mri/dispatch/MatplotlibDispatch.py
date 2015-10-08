@@ -7,6 +7,7 @@ from future import standard_library
 standard_library.install_aliases()
 import logging
 import os
+import errno
 
 from .BaseDispatch import BaseDispatch
 
@@ -119,6 +120,13 @@ class MatplotlibDispatch(BaseDispatch):
             save_path = os.path.join(self._img_folder, filename)
             logging.info('Finished training! Saving output image to {0}'.format(save_path))
             logging.info('\'{}\' Final Extremes: {}'.format(self.task_params['title'], self._legend_keys))
+            try:
+                fold = os.path.basename(self._img_folder)
+                logging.info("Creating folder {}".format(fold))
+                os.makedirs(fold)
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
             plt.savefig(save_path, bbox_inches='tight', format='png')
             plt.close()
         else:
